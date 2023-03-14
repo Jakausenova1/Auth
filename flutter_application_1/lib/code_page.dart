@@ -4,7 +4,9 @@ import 'package:flutter_application_1/assets/app_images.dart';
 import 'package:flutter_application_1/widgets/text_field.dart';
 
 class CodePage extends StatelessWidget {
-  const CodePage({super.key});
+  CodePage({super.key});
+
+  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,11 +64,12 @@ class CodePage extends StatelessWidget {
                   const SizedBox(
                     height: 100,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 309,
                     height: 57,
                     child: TextFieldWidget(
                       hintText: 'Code',
+                      controller: controller,
                     ),
                   ),
                   const SizedBox(

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/assets/app_fonts.dart';
 import 'package:flutter_application_1/assets/app_images.dart';
+import 'package:flutter_application_1/bloc/auth_bloc.dart';
 import 'package:flutter_application_1/code_page.dart';
 import 'package:flutter_application_1/widgets/text_field.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WelcomePhone extends StatelessWidget {
-  const WelcomePhone({super.key});
+  WelcomePhone({super.key});
+
+  final controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -63,31 +67,45 @@ class WelcomePhone extends StatelessWidget {
                   const SizedBox(
                     height: 100,
                   ),
-                  const SizedBox(
+                  SizedBox(
                     width: 309,
                     height: 57,
                     child: TextFieldWidget(
                       hintText: 'Phone',
+                      controller: controller,
                     ),
                   ),
                   const SizedBox(
                     height: 50,
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
+                  BlocListener<AuthBloc, AuthState>(
+                    listener: (context, state) {
+                      if (state is AuthSucces) {
+                        Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const CodePage()));
+                            builder: (context) => CodePage(),
+                          ),
+                        );
+                      }
                     },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (controller.text.length >= 12) {
+                          BlocProvider.of<AuthBloc>(context).add(
+                            SendPhoneEvent(phoneNumber: controller.text),
+                          );
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                       ),
-                    ),
-                    child: Text(
-                      'Sign in',
-                      style: AppFonts.w600s15.copyWith(color: Colors.white),
+                      child: Text(
+                        'Sign in',
+                        style: AppFonts.w600s15.copyWith(color: Colors.white),
+                      ),
                     ),
                   ),
                   const SizedBox(

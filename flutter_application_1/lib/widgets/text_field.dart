@@ -5,13 +5,16 @@ class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
     Key? key,
     required this.hintText,
+    required this.controller,
   }) : super(key: key);
 
   final String hintText;
-
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return TextField(
+      maxLength: 12,
+      controller: controller,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
